@@ -60,6 +60,9 @@ import { trigger, state, style, animate, transition, query, group } from '@angul
   ]
 })
 export class AppComponent implements OnInit {
+  title(title: any) {
+    throw new Error('Method not implemented.');
+  }
   isScrolled = false;
   isMenuOpen = false;
   isDarkTheme = false;
@@ -70,7 +73,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Charger le thème depuis le localStorage
+  
     this.isDarkTheme = localStorage.getItem('theme') === 'dark';
     this.applyTheme();
   }

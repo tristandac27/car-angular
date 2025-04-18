@@ -110,8 +110,7 @@ export class CarService {
           throw new Error('Car not found');
         }
 
-        // Créer un objet avec les données de réservation
-        // Format attendu par le backend selon le contrôleur
+      
         const reservationData = {
           ...car,
           reservedFrom: reservation.startDate,
@@ -168,12 +167,12 @@ export class CarService {
   getImageUrl(photoPath: string): string {
     if (!photoPath) return 'assets/default-car.jpg';
     
-    // Si le chemin commence par '/', c'est une image du backend
+  
     if (photoPath.startsWith('/')) {
       return `${this.uploadsUrl}${photoPath}`;
     }
     
-    // Sinon, c'est une image locale ou une URL complète
+   
     return photoPath;
   }
 }

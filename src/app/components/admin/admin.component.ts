@@ -60,7 +60,7 @@ export class AdminComponent implements OnInit {
       this.isLoading = true;
       const carData: Car = {
         ...this.carForm.value,
-        // Convertir les valeurs numériques
+       
         year: +this.carForm.value.year,
         price: +this.carForm.value.price
       };
