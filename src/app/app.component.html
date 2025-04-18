@@ -1,0 +1,119 @@
+<nav class="nike-navbar">
+  <div class="container">
+    <div class="navbar-content">
+      <div class="logo">
+        <a routerLink="/">
+          <h1>CarRental</h1>
+        </a>
+      </div>
+      
+      <div class="nav-links">
+        <a routerLink="/" class="active">Accueil</a>
+       
+        <a routerLink="/admin">Admin</a>
+        
+      </div>
+      
+      <div class="nav-actions">
+        <button mat-icon-button routerLink="/admin">
+          <mat-icon>dashboard</mat-icon>
+        </button>
+        
+        <button mat-icon-button>
+         
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+<style>
+  .nike-navbar {
+  background-color: var(--nike-dark);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  height: 70px;
+}
+
+.navbar-content {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.logo a {
+  text-decoration: none;
+}
+
+.logo h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: white;
+  letter-spacing: -1px;
+  text-transform: uppercase;
+}
+
+.nav-links {
+  display: flex;
+  margin-left: 40px;
+}
+
+.nav-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 0 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: white;
+}
+
+.nav-links a.active {
+  position: relative;
+}
+
+.nav-links a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -26px;
+  left: 20px;
+  right: 20px;
+  height: 2px;
+  background-color: var(--nike-red);
+}
+
+.nav-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.nav-actions button {
+  color: white;
+}
+
+@media (max-width: 992px) {
+  .nav-links {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .logo h1 {
+    font-size: 1.5rem;
+  }
+}
+</style>
+<main class="main-content">
+  <router-outlet></router-outlet>
+</main>

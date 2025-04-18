@@ -1,0 +1,200 @@
+<div class="nike-container">
+  <!-- Navigation Bar -->
+  <nav class="nike-navbar">
+    <div class="container">
+      <div class="navbar-content">
+        <div class="logo">
+          <a routerLink="/">
+            <h1>CarRental</h1>
+          </a>
+        </div>
+        
+        <div class="nav-links">
+          <a routerLink="/" class="active">Accueil</a>
+          <a href="#">Voitures</a>
+          <a href="#">Contact</a>
+        </div>
+        
+        <div class="nav-actions">
+          <button mat-icon-button routerLink="/" matTooltip="Retour à l'accueil">
+            <mat-icon>arrow_back</mat-icon>
+          </button>
+          
+          <button mat-icon-button routerLink="/admin">
+            <mat-icon>dashboard</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      <!-- Loading State -->
+      <div class="loading-container" *ngIf="isLoading">
+        <mat-spinner diameter="40" color="accent"></mat-spinner>
+        <p>Chargement des informations...</p>
+      </div>
+      
+      <!-- Error State -->
+      <div class="error-container" *ngIf="error">
+        <mat-icon>error_outline</mat-icon>
+        <h2>Une erreur est survenue</h2>
+        <p>{{error}}</p>
+        <button mat-raised-button (click)="loadCar()">Réessayer</button>
+      </div>
+      
+      <!-- Car Detail Content -->
+      <div class="car-detail-section" *ngIf="car && !isLoading">
+        <!-- Car Header -->
+        <div class="car-header">
+          <h1 class="car-title">{{car.brand}} <span>{{car.model}}</span></h1>
+          <div class="car-status" [class.available]="car.available" [class.unavailable]="!car.available">
+            {{ car.available ? 'Disponible' : 'Non disponible' }}
+          </div>
+        </div>
+        
+        <!-- Car Info Grid -->
+        <div class="car-info-grid">
+          <!-- Car Image Section -->
+          <div class="car-image-section">
+            <div class="car-image">
+              <img [src]="getPhotoUrl(car.photo)" [alt]="car.brand + ' ' + car.model">
+              <div class="car-price">{{car.price | currency:'EUR':'symbol':'1.0-0'}}/jour</div>
+            </div>
+            
+            <div class="car-details">
+              <div class="car-specs">
+                <div class="spec-item" *ngIf="car.seats">
+                  <mat-icon>event_seat</mat-icon>
+                  <span class="spec-label">Sièges</span>
+                  <span class="spec-value">{{car.seats}}</span>
+                </div>
+                <div class="spec-item" *ngIf="car.fuelType">
+                  <mat-icon>local_gas_station</mat-icon>
+                  <span class="spec-label">Carburant</span>
+                  <span class="spec-value">{{car.fuelType}}</span>
+                </div>
+                <div class="spec-item" *ngIf="car.transmission">
+                  <mat-icon>settings</mat-icon>
+                  <span class="spec-label">Transmission</span>
+                  <span class="spec-value">{{car.transmission}}</span>
+                </div>
+                <div class="spec-item">
+                  <mat-icon>date_range</mat-icon>
+                  <span class="spec-label">Année</span>
+                  <span class="spec-value">{{car.year}}</span>
+                </div>
+              </div>
+              
+              <div class="car-description">
+                <h3>Description</h3>
+                <p>{{car.description}}</p>
+              </div>
+              
+              <div class="car-actions">
+                <button class="like-button" (click)="carService.likeCar(car.id ? +car.id : 0)">
+                  <mat-icon>favorite</mat-icon>
+                  <span class="like-count" *ngIf="car.likes">{{car.likes}}</span>
+                </button>
+                
+                <button class="reserve-button" [disabled]="!car.available" (click)="openReservationDialog()">
+                  <mat-icon>calendar_today</mat-icon>
+                  Réserver maintenant
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Calendar Section -->
+          <div class="calendar-section">
+            <div class="calendar-header">
+              <h2>Calendrier de disponibilité</h2>
+              <p>Sélectionnez des dates pour voir les disponibilités</p>
+            </div>
+            
+            <div class="fullcalendar-container">
+              <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+            </div>
+            
+            <div class="calendar-legend">
+              <div class="legend-item">
+                <div class="legend-color available"></div>
+                <span class="legend-label">Disponible</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color reserved"></div>
+                <span class="legend-label">Réservé</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color selected"></div>
+                <span class="legend-label">Sélectionné</span>
+              </div>
+            </div>
+            
+            <!-- Reservation Info -->
+            <div class="reservation-info" *ngIf="car.reservedFrom && car.reservedTo">
+              <h3>Réservation en cours</h3>
+              <div class="reservation-details">
+                <div class="detail-item">
+                  <mat-icon>event</mat-icon>
+                  <div class="detail-content">
+                    <span class="detail-label">Date de début</span>
+                    <span class="detail-value">{{car.reservedFrom | date:'dd/MM/yyyy'}}</span>
+                  </div>
+                </div>
+                <div class="detail-item">
+                  <mat-icon>event</mat-icon>
+                  <div class="detail-content">
+                    <span class="detail-label">Date de fin</span>
+                    <span class="detail-value">{{car.reservedTo | date:'dd/MM/yyyy'}}</span>
+                  </div>
+                </div>
+                <div class="detail-item" *ngIf="car.customerName">
+                  <mat-icon>person</mat-icon>
+                  <div class="detail-content">
+                    <span class="detail-label">Client</span>
+                    <span class="detail-value">{{car.customerName}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="nike-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <h2>CarRental</h2>
+          <p>Location de voitures premium</p>
+        </div>
+        
+        <div class="footer-links">
+          <h3>Liens rapides</h3>
+          <ul>
+            <li><a href="#">Accueil</a></li>
+            <li><a href="#">Nos voitures</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-contact">
+          <h3>Contact</h3>
+          <p><mat-icon>location_on</mat-icon> 123 Rue de la Location, 75000 Paris</p>
+          <p><mat-icon>phone</mat-icon> +33 1 23 45 67 89</p>
+          <p><mat-icon>email</mat-icon> contact&#64;carrental.com</p>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; {{currentYear}} CarRental. Tous droits réservés.</p>
+      </div>
+    </div>
+  </footer>
+</div>

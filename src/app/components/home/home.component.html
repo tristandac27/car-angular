@@ -1,0 +1,124 @@
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      <!-- Search Bar -->
+      <div class="search-section">
+        <div class="search-container">
+          <mat-form-field appearance="outline" class="search-field">
+            <mat-icon matPrefix>search</mat-icon>
+            <input matInput [formControl]="searchControl" placeholder="Rechercher une voiture...">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Categories Section -->
+      <section class="categories-section">
+        <div class="categories-wrapper">
+          <div class="category-item" *ngFor="let brand of ['Toutes', 'Audi', 'BMW', 'Mercedes', 'Tesla', 'Toyota']" 
+               [class.active]="selectedBrand === brand || (brand === 'Toutes' && !selectedBrand)"
+               (click)="filterByBrand(brand === 'Toutes' ? '' : brand)">
+            <div class="category-icon">
+              <mat-icon>directions_car</mat-icon>
+            </div>
+            <span class="category-name">{{brand}}</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Cars Section -->
+      <section id="cars" class="cars-section">
+        <h2 class="section-title">NOTRE COLLECTION</h2>
+        
+        <!-- Loading State -->
+        <div class="loading-container" *ngIf="loading">
+          <mat-spinner diameter="40"></mat-spinner>
+        </div>
+        
+        <!-- Error State -->
+        <div class="error-message" *ngIf="error">
+          <mat-icon>error_outline</mat-icon>
+          <h3>Impossible de charger les véhicules</h3>
+          <p>{{error}}</p>
+          <button mat-raised-button color="primary" (click)="loadCars()">Réessayer</button>
+        </div>
+        
+        <!-- Empty State -->
+        <div class="empty-state" *ngIf="!loading && !error && filteredCars.length === 0">
+          <mat-icon>search_off</mat-icon>
+          <h3>Aucun véhicule trouvé</h3>
+          <p>Essayez de modifier vos critères de recherche</p>
+          <button mat-raised-button color="primary" (click)="resetFilters()">Réinitialiser les filtres</button>
+        </div>
+        
+        <!-- Cars Grid -->
+        <div class="car-grid" *ngIf="!loading && !error && filteredCars.length > 0">
+          <div class="car-card fade-in" *ngFor="let car of filteredCars; let i = index" [style.animation-delay]="i * 0.1 + 's'">
+            <div class="car-image">
+              <img [src]="getPhotoUrl(car)" [alt]="car.brand + ' ' + car.model" (error)="car.photo = ''">
+              <div class="car-price">{{car.price | currency:'EUR'}}/jour</div>
+              <div class="car-overlay">
+                <button mat-raised-button color="primary" [routerLink]="['/cars', car.id]">Voir détails</button>
+              </div>
+            </div>
+            
+            <div class="car-info">
+              <h3 class="car-title">{{car.brand}} {{car.model}}</h3>
+              <p class="car-year">{{car.year}}</p>
+              
+              <div class="car-features" *ngIf="car.seats || car.fuelType || car.transmission">
+                <div class="feature" *ngIf="car.seats">
+                  <mat-icon>event_seat</mat-icon>
+                  <span>{{car.seats}} sièges</span>
+                </div>
+                <div class="feature" *ngIf="car.fuelType">
+                  <mat-icon>local_gas_station</mat-icon>
+                  <span>{{car.fuelType}}</span>
+                </div>
+                <div class="feature" *ngIf="car.transmission">
+                  <mat-icon>settings</mat-icon>
+                  <span>{{car.transmission}}</span>
+                </div>
+              </div>
+              
+              <div class="car-actions">
+                <button mat-icon-button color="warn" (click)="likeCar(car)" class="like-button">
+                  <mat-icon>favorite</mat-icon>
+                  <span class="like-count" *ngIf="car.likes">{{car.likes}}</span>
+                </button>
+                
+                <div class="availability" [class.available]="car.available">
+                  {{ car.available ? 'Disponible' : 'Indisponible' }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+
+        
+        <div class="footer-contact">
+          <h3>Contact</h3>
+          <p><mat-icon>location_on</mat-icon> 123 Rue de la Location, 75000 Paris</p>
+          <p><mat-icon>phone</mat-icon> +33 1 23 45 67 89</p>
+          <p><mat-icon>email</mat-icon> contact&#64;carrental.com</p>
+        </div>
+        
+        <div class="footer-social">
+          <h3>Suivez-nous</h3>
+          <div class="social-icons">
+            <a href="#" class="social-icon"><mat-icon>facebook</mat-icon></a>
+            <a href="#" class="social-icon"><mat-icon>twitter</mat-icon></a>
+            <a href="#" class="social-icon"><mat-icon>instagram</mat-icon></a>
+            <a href="#" class="social-icon"><mat-icon>youtube_searched_for</mat-icon></a>
+          </div>
+        </div>
+      
+      
+      <div class="footer-bottom">
+        <p>&copy; {{currentYear}} CarRental. Tous droits réservés.</p>
+      </div>
+    

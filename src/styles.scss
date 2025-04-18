@@ -1,0 +1,389 @@
+@use '@angular/material' as mat;
+
+// Custom Theming for Angular Material
+@include mat.core();
+
+// Custom color palette
+$primary-palette: (
+  50: #e3f2fd,
+  100: #bbdefb,
+  200: #90caf9,
+  500: #2196f3,
+  700: #1976d2,
+  900: #0d47a1,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    500: white,
+    700: white,
+    900: white,
+  )
+);
+
+$accent-palette: (
+  50: #fff8e1,
+  100: #ffecb3,
+  200: #ffe082,
+  500: #ffc107,
+  700: #ffa000,
+  900: #ff6f00,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    500: rgba(black, 0.87),
+    700: rgba(black, 0.87),
+    900: white,
+  )
+);
+
+// Define the palettes
+$primary: mat.define-palette($primary-palette, 500);
+$accent: mat.define-palette($accent-palette, 500);
+
+// Create the theme
+$theme: mat.define-light-theme((
+  color: (
+    primary: $primary,
+    accent: $accent
+  ),
+  typography: mat.define-typography-config(),
+  density: 0
+));
+
+// Apply the theme
+@include mat.all-component-themes($theme);
+
+// Global styles
+:root {
+  /* Nike-inspired Color Palette */
+  --nike-black: #111111;
+  --nike-dark: #1e1e1e;
+  --nike-white: #ffffff;  /* Changed from #2a2a2a to #ffffff */
+  --nike-light-white: #f5f5f5;  /* Changed from #444444 to #f5f5f5 */
+  --nike-red: #ff0000;
+  --nike-bright-red: #ff3333;
+  
+  /* Text Colors */
+  --text-primary: #ffffff;  /* Already correct - white text */
+  --text-secondary: #b3b3b3;  /* Light gray for secondary text */
+
+  --space-unit: 8px;
+  --card-padding: calc(var(--space-unit) * 3);
+  --card-radius: 8px;
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Material Form Field Styles */
+.mat-form-field-appearance-outline .mat-form-field-label {
+  color: var(--text-secondary) !important;  /* Make sure label is visible */
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: rgba(255, 255, 255, 0.3);  /* Light border for better visibility */
+}
+
+/* Input Text Color */
+.mat-input-element {
+  color: var(--text-primary) !important;  /* Force white text in inputs */
+}
+
+/* Card Text Colors */
+.mat-card {
+  color: var(--text-primary) !important;  /* Force white text in cards */
+}
+
+.mat-card-subtitle {
+  color: var(--text-secondary) !important;  /* Light gray for subtitles */
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  background-color: var(--nike-black);
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+/* Angular Material Customization */
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: var(--nike-light-white);
+}
+
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: var(--nike-red);
+}
+
+.mat-form-field-appearance-outline .mat-form-field-label {
+  color: var(--text-secondary);
+}
+
+.mat-form-field.mat-focused .mat-form-field-label {
+  color: var(--nike-red);
+}
+
+.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0.5em 0;
+}
+
+/* Button Styles */
+.mat-raised-button.mat-primary {
+  background-color: var(--nike-red);
+}
+
+.mat-raised-button.mat-primary:hover {
+  background-color: var(--nike-bright-red);
+}
+
+.mat-icon-button {
+  color: var(--text-secondary);
+}
+
+.mat-icon-button:hover {
+  color: var(--text-primary);
+}
+
+.mat-icon-button.mat-warn {
+  color: var(--nike-red);
+}
+
+/* Card Styles */
+.mat-card {
+  background-color: var(--nike-white);
+  color: var(--text-primary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+.mat-card-title {
+  color: var(--text-primary);
+}
+
+.mat-card-subtitle {
+  color: var(--text-secondary);
+}
+
+/* Material Input Styles */
+.mat-mdc-form-field {
+  width: 100%;
+  margin-bottom: 1rem;
+
+  .mat-mdc-text-field-wrapper {
+    background-color: var(--nike-dark) !important;
+    padding: 0.5rem 0;
+  }
+
+  .mat-mdc-input-element {
+    color: white !important;
+    font-size: 16px !important;
+    padding: 0.5rem 0;
+  }
+
+  .mdc-floating-label, .mat-mdc-floating-label {
+    color: var(--text-secondary) !important;
+    font-size: 16px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+  }
+
+  &.mat-mdc-form-field-has-value,
+  &.mat-focused {
+    .mdc-floating-label, .mat-mdc-floating-label {
+      transform: translateY(-130%) scale(0.75) !important;
+    }
+  }
+
+  .mdc-text-field--outlined {
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+      border-color: rgba(255, 255, 255, 0.3) !important;
+    }
+
+    .mdc-notched-outline__notch {
+      border-top: none;
+    }
+  }
+
+  &.mat-focused {
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+      border-color: var(--nike-red) !important;
+      border-width: 2px;
+    }
+
+    .mdc-floating-label {
+      color: var(--nike-red) !important;
+    }
+  }
+}
+
+// Force text color for all inputs
+input.mat-mdc-input-element {
+  color: white !important;
+}
+
+// Placeholder color
+::placeholder {
+  color: var(--text-secondary) !important;
+  opacity: 1 !important;
+}
+
+/* Form Grid Layout */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Form Field Spacing */
+.mat-mdc-form-field + .mat-mdc-form-field {
+  margin-left: 8px;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .mat-mdc-form-field {
+    flex: 1;
+  }
+}
+
+/* Animation Classes */
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--nike-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--nike-light-white);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--nike-red);
+}
+
+/* Utility Classes */
+.text-center {
+  text-align: center;
+}
+
+.mt-1 { margin-top: var(--space-xs); }
+.mt-2 { margin-top: var(--space-sm); }
+.mt-3 { margin-top: var(--space-md); }
+.mt-4 { margin-top: var(--space-lg); }
+.mt-5 { margin-top: var(--space-xl); }
+
+.mb-1 { margin-bottom: var(--space-xs); }
+.mb-2 { margin-bottom: var(--space-sm); }
+.mb-3 { margin-bottom: var(--space-md); }
+.mb-4 { margin-bottom: var(--space-lg); }
+.mb-5 { margin-bottom: var(--space-xl); }
+
+.ml-1 { margin-left: var(--space-xs); }
+.ml-2 { margin-left: var(--space-sm); }
+.ml-3 { margin-left: var(--space-md); }
+.ml-4 { margin-left: var(--space-lg); }
+.ml-5 { margin-left: var(--space-xl); }
+
+.mr-1 { margin-right: var(--space-xs); }
+.mr-2 { margin-right: var(--space-sm); }
+.mr-3 { margin-right: var(--space-md); }
+.mr-4 { margin-right: var(--space-lg); }
+.mr-5 { margin-right: var(--space-xl); }
+
+.p-1 { padding: var(--space-xs); }
+.p-2 { padding: var(--space-sm); }
+.p-3 { padding: var(--space-md); }
+.p-4 { padding: var(--space-lg); }
+.p-5 { padding: var(--space-xl); }
+
+.w-100 { width: 100%; }
+.h-100 { height: 100%; }
+
+.d-flex { display: flex; }
+.flex-column { flex-direction: column; }
+.justify-content-center { justify-content: center; }
+.align-items-center { align-items: center; }
+.justify-content-between { justify-content: space-between; }
+.justify-content-around { justify-content: space-around; }
+.flex-wrap { flex-wrap: wrap; }
+
+.position-relative { position: relative; }
+.position-absolute { position: absolute; }
+
+.text-white { color: var(--text-primary); }
+.text-muted { color: var(--text-secondary); }
+.text-red { color: var(--nike-red); }
+
+.bg-dark { background-color: var(--nike-dark); }
+.bg-white { background-color: var(--nike-white); }
+.bg-red { background-color: var(--nike-red); }
+
+.rounded { border-radius: var(--radius-md); }
+.shadow { box-shadow: var(--shadow-md); }
+
+/* Material Card Styles */
+.mat-mdc-card {
+  background-color: var(--nike-black) !important;
+  color: var(--text-primary) !important;
+  border-radius: var(--card-radius) !important;
+  
+  .mat-mdc-card-title {
+    color: var(--text-primary) !important;
+  }
+  
+  .mat-mdc-card-subtitle {
+    color: var(--text-secondary) !important;
+  }
+}
+
+/* Material Button Styles */
+.mat-mdc-raised-button {
+  &.mat-primary {
+    background-color: var(--nike-red) !important;
+    color: white !important;
+  }
+}
